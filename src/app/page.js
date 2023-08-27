@@ -1,5 +1,11 @@
-import Image from "next/image";
+import CardContainer from "./CardContainer";
 
-export default function Home() {
-  return <main></main>;
+export default async function Home() {
+  const res = await fetch("https://dw.euro.who.int/api/v3/data_sets/HFA");
+  const resJson = await res.json();
+  return (
+    <main>
+      <CardContainer measures={resJson?.measures} />
+    </main>
+  );
 }
