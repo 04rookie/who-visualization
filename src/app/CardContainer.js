@@ -1,13 +1,14 @@
+import { Container, Grid } from "@radix-ui/themes";
 import CardMain from "./CardMain";
 
 export default function CardContainer(props) {
   return (
-    <div className="px-20">
-      <div className="grid grid-cols-4 gap-4">
+    <Container size="4">
+      <Grid columns="3" gap="5" width="auto">
         {props?.measures?.map((measure, index) => {
           return <CardMain key={index} measure={measure} />;
         })}
-      </div>
-    </div>
+      </Grid>
+    </Container>
   );
 }

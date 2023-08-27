@@ -1,8 +1,7 @@
-import { Providers } from "@/util/Providers";
 import "./globals.css";
 import { Inter } from "next/font/google";
-import DarkModeButton from "@/util/Darkmode";
-import '@radix-ui/themes/styles.css';
+import { Theme } from "@radix-ui/themes";
+import "@radix-ui/themes/styles.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -14,10 +13,15 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <Providers>
-          <DarkModeButton />
+        {/* <Theme appearance="dark" > */}
+        <Theme
+          appearance="dark"
+          accentColor="tomato"
+          grayColor="sage"
+          radius="small"
+        >
           {children}
-        </Providers>
+        </Theme>
       </body>
     </html>
   );
