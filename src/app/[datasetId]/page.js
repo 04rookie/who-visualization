@@ -5,5 +5,5 @@ export default async function dataset({ params }) {
   );
   const resJson = await res.json();
   // console.log(resJson);
-  return <div><MeasureProperty measure={resJson} /></div>;
+  return <div className="h-full w-full"><MeasureProperty measure={resJson} /></div>;
 }
