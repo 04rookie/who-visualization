@@ -1,5 +1,6 @@
 import { Card, Container, Flex, Text } from "@radix-ui/themes";
 import DatasetTable from "./DatasetTable";
+import GraphContainer from "./GraphContainer";
 
 export default function MeasureProperty({ measure }) {
   const measureTemp = Object.keys(measure);
@@ -7,21 +8,11 @@ export default function MeasureProperty({ measure }) {
     const type = typeof measure?.[item];
     return { name: item, type: type };
   });
-  console.log(measure);
+  // console.log(measure);
   return (
-    <>
+    <div className="">
       <DatasetTable measureArray={measureArray} />
-      {/* <Card asChild>
-        <Flex direction={"column"} justify={"between"} align={"center"}>
-          {measureArray?.map((item, index) => {
-            return (
-              <Text key={index} as="div" size="2" weight="bold">
-                {item}
-              </Text>
-            );
-          })}
-        </Flex>
-      </Card> */}
-    </>
+      <GraphContainer />
+    </div>
   );
 }
