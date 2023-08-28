@@ -6,6 +6,6 @@ export default async function dataset({ params }) {
     `https://dw.euro.who.int/api/v3/data_sets/HFA/${params?.datasetId}`
   );
   const resJson = await res.json();
-  console.log(resJson);
+  // console.log(resJson);
   return <MeasureProperty measure={resJson} />;
 }
