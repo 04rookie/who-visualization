@@ -11,10 +11,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+    <html lang="en" suppressHydrationWarning className="h-full">
+      <body className={"h-full"}>
         {/* <Theme appearance="dark" > */}
         <Theme
+          className="h-full"
           appearance="dark"
           accentColor="tomato"
           grayColor="sage"
