@@ -10,9 +10,9 @@ export default function MeasureProperty({ measure }) {
   });
   // console.log(measure);
   return (
-    <div className="">
-      <DatasetTable measureArray={measureArray} />
-      <GraphContainer />
+    <div className="h-full w-full">
+      {/* <DatasetTable measureArray={measureArray} /> */}
+      <GraphContainer measure={measure}/>
     </div>
   );
 }
