@@ -1,13 +1,11 @@
 "use client";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  ResponsiveContainer,
-  Tooltip,
-  Legend,
-} from "recharts";
+
+import dynamic from "next/dynamic";
+
+const LineChartComponent = dynamic(() => import("./LineChartComponent"), {
+  loading: () => "...Loading",
+  ssr: false,
+});
 
 export default function GraphContainer({ measure }) {
   let attributeMap = {};
@@ -32,11 +30,13 @@ export default function GraphContainer({ measure }) {
     for (let count = 0; count < YEARRANGE; count++) {
       graph.push({
         year: measure?.dimensions?.[3]?.lower_bound + count,
-        ...countryMap,
+        yData: {
+          ...countryMap,
+        },
       });
     }
   });
-  // graphs[0][0]["ALB"] = 1;
+
   graphs.forEach((graph, graphIndex) => {
     measure?.data?.forEach((datum) => {
       if (
@@ -46,61 +46,52 @@ export default function GraphContainer({ measure }) {
       ) {
         const diff =
           datum?.dimensions?.YEAR - measure?.dimensions?.[3]?.lower_bound;
-        graphs[graphIndex][diff][datum?.dimensions?.COUNTRY] =
+        graphs[graphIndex][diff].yData[datum?.dimensions?.COUNTRY] =
           datum?.value?.numeric;
       }
     });
   });
-  const colors = [];
-  for (let i = 0; i < 100; i++) {
-    const randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
-    colors.push(randomColor);
+
+  function random_rgba() {
+    var o = Math.round,
+      r = Math.random,
+      s = 255;
+    return (
+      "rgba(" + o(r() * s) + "," + o(r() * s) + "," + o(r() * s) + "," + 1 + ")"
+    );
   }
+
+  // const colors = [];
+  // for (let i = 0; i < 100; i++) {
+  //   // const randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
+  //   colors.push(random_rgba());
+  // }
 
   graphs.forEach((graph) => {
     graph.forEach((element) => {
-      const keys = Object.keys(element);
+      const keys = Object.keys(element.yData);
       keys.forEach((key) => {
-        if (element[key] === -1) {
-          delete element[key];
+        if (element.yData[key] === -1) {
+          delete element.yData[key];
         }
       });
     });
   });
+
+  let tempLabel = [];
+  for (let count = 0; count < YEARRANGE; count++) {
+    tempLabel.push(measure?.dimensions?.[3]?.lower_bound + count);
+  }
+
   return (
     <div className="h-full w-full flex">
       <div className="h-4/5 w-4/5 m-auto">
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart width={200} height={200} data={graphs[0]}>
-            <Tooltip />
-            <Legend />
-            <XAxis dataKey="year" />
-            <YAxis tickCount={15} />
-            {Object.keys(countryMap)?.map((country, index) => {
-              return (
-                <Line
-                  key={index}
-                  type="monotone"
-                  dataKey={country}
-                  stroke={colors[index]}
-                  name={country}
-                />
-              );
-            })}
-          </LineChart>
-          {/* <LineChart width={200} height={200} data={tempDataset}>
-            <Tooltip />
-            <Legend />
-            <XAxis dataKey="xAxis" />
-            <YAxis tickCount={15} />
-            <Line
-              type="monotone"
-              dataKey="yAxis"
-              stroke="#8884d8"
-              name="Y Axis"
-            />
-          </LineChart> */}
-        </ResponsiveContainer>
+        <LineChartComponent
+          tempLabel={tempLabel}
+          dimension={dimension}
+          random_rgba={random_rgba}
+          graphs={graphs}
+        />
       </div>
     </div>
   );
