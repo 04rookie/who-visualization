@@ -14,30 +14,44 @@ export default function LineChartComponent({
   return (
     <Line
       options={{
+        // layout: {
+        //   autoPadding: false,
+        //   padding: 1,
+        // },
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            min: 0,
+          },
+        },
         interaction: {
           mode: "nearest",
           axis: "x",
           intersect: false,
         },
         plugins: {
+          legend: {
+            display: false,
+          },
           zoom: {
             zoom: {
-              //   drag: {
-              //     enabled: true,
-              //   },
+              drag: {
+                enabled: true,
+              },
               wheel: {
                 enabled: true,
               },
               pinch: {
                 enabled: true,
               },
-              mode: "xy",
+              mode: "x",
             },
             pan: {
               enabled: true,
-              mode: "xy",
+              mode: "x",
               modifierKey: "ctrl",
-            //   scaleMode: "xy",
+              scaleMode: "x",
             },
           },
         },
