@@ -31,6 +31,7 @@ export default function LineChartComponent({
           intersect: false,
         },
         plugins: {
+          tooltip:{multiKeyBackground: '#000'},
           legend: {
             display: false,
           },
@@ -45,13 +46,13 @@ export default function LineChartComponent({
               pinch: {
                 enabled: true,
               },
-              mode: "x",
+              mode: "xy",
             },
             pan: {
               enabled: true,
-              mode: "x",
+              mode: "xy",
               modifierKey: "ctrl",
-              scaleMode: "x",
+              scaleMode: "xy",
             },
           },
         },
