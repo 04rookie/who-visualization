@@ -1,50 +1,105 @@
 "use client";
-import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, Legend } from "recharts";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  ResponsiveContainer,
+  Tooltip,
+  Legend,
+} from "recharts";
 
 export default function GraphContainer({ measure }) {
+  let attributeMap = {};
   const dimension = measure?.dimensions?.[0]?.values;
   const attributes = measure?.attributes?.[0]?.values;
-  // console.log("measure: " + measure?.dimensions?.[0]?.values?.[0]?.who_code);
-  // console.log(dimension);
-  const countryCodeMap = dimension?.map((element) => {
-    // console.log(element);
-    return element?.who_code;
+  let countryMap = {};
+  dimension.forEach((dim, index) => {
+    countryMap[dim?.who_code] = -1;
   });
-  const attributesMap = attributes?.map((element) => {
-    return element?.code;
+  attributes.forEach((attribute, index) => {
+    attributeMap[attribute?.code] = {
+      attributeIndex: index,
+    };
   });
+  let graphs = attributes?.map((element) => []);
+  const YEARRANGE =
+    measure?.dimensions?.[3]?.upper_bound -
+    measure?.dimensions?.[3]?.lower_bound +
+    1;
 
-  // console.log("dimension: " + dimension);
-  // console.log("attributes: " + attributes);
-  // console.log("country code map: " + countryCodeMap?.[0]);
-  // console.log("country code map: " + attributesMap?.[0]);
-  // Number of dimensions = number of lines
-  // Number of attributes = number of graphs
-  const tempDataset = [];
-  measure?.data?.forEach((element) => {
-    if (
-      element?.attributes?.MEASURE_TYPE === "AVG_ARITH" &&
-      element?.dimensions?.COUNTRY === "ALB"
-    ) {
-      tempDataset.push({
-        name: "ALB",
-        yAxis: element?.value?.numeric,
-        xAxis: element?.dimensions?.YEAR,
+  graphs.forEach((graph, index) => {
+    for (let count = 0; count < YEARRANGE; count++) {
+      graph.push({
+        year: measure?.dimensions?.[3]?.lower_bound + count,
+        ...countryMap,
       });
     }
   });
-  // console.log(tempDataset);
+  // graphs[0][0]["ALB"] = 1;
+  graphs.forEach((graph, graphIndex) => {
+    measure?.data?.forEach((datum) => {
+      if (
+        datum?.dimensions?.COUNTRY?.length !== 0 &&
+        datum?.dimensions?.COUNTRY !== undefined &&
+        countryMap?.[datum?.dimensions?.COUNTRY] !== undefined
+      ) {
+        const diff =
+          datum?.dimensions?.YEAR - measure?.dimensions?.[3]?.lower_bound;
+        graphs[graphIndex][diff][datum?.dimensions?.COUNTRY] =
+          datum?.value?.numeric;
+      }
+    });
+  });
+  const colors = [];
+  for (let i = 0; i < 100; i++) {
+    const randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
+    colors.push(randomColor);
+  }
+
+  graphs.forEach((graph) => {
+    graph.forEach((element) => {
+      const keys = Object.keys(element);
+      keys.forEach((key) => {
+        if (element[key] === -1) {
+          delete element[key];
+        }
+      });
+    });
+  });
   return (
     <div className="h-full w-full flex">
       <div className="h-4/5 w-4/5 m-auto">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart width={200} height={200} data={tempDataset}>
+          <LineChart width={200} height={200} data={graphs[0]}>
+            <Tooltip />
+            <Legend />
+            <XAxis dataKey="year" />
+            <YAxis tickCount={15} />
+            {Object.keys(countryMap)?.map((country, index) => {
+              return (
+                <Line
+                  key={index}
+                  type="monotone"
+                  dataKey={country}
+                  stroke={colors[index]}
+                  name={country}
+                />
+              );
+            })}
+          </LineChart>
+          {/* <LineChart width={200} height={200} data={tempDataset}>
             <Tooltip />
             <Legend />
             <XAxis dataKey="xAxis" />
             <YAxis tickCount={15} />
-            <Line type="monotone" dataKey="yAxis" stroke="#8884d8" name="Y Axis"/>
-          </LineChart>
+            <Line
+              type="monotone"
+              dataKey="yAxis"
+              stroke="#8884d8"
+              name="Y Axis"
+            />
+          </LineChart> */}
         </ResponsiveContainer>
       </div>
     </div>
