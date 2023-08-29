@@ -1,5 +1,6 @@
 "use client";
 import {
+  Checkbox,
   Flex,
   Heading,
   Link,
@@ -16,14 +17,14 @@ export default function Sidebar({ measure }) {
     <div className="h-full w-full py-5 px-1 overflow-auto">
       {/* <Text as="div" weight={"bold"} highContrast={true}>{measure?.short_name}</Text> */}
       <Heading as="div" weight={"bold"} highContrast={true}>
-        {measure?.full_name}
+        {measure?.full_name}.
       </Heading>
       <Separator size={4} my="4" />
       <Text as="p">
         {readMoreFlag
           ? measure?.notes?.[0]?.values[0]?.value
               .replaceAll("<.*?>", "")
-              .replaceAll("<br/>", "")
+              .replaceAll("<br/>", "") + "...."
           : measure?.notes?.[0]?.values[0]?.value
               .replaceAll("<.*?>", "")
               .replaceAll("<br/>", "")
@@ -35,8 +36,8 @@ export default function Sidebar({ measure }) {
         )}
       </Text>
       <Separator size={4} my="4" />
-      <Text as="div" weight={"regular"} highContrast={true} mb="4">
-        Select a type of <Strong>measure</Strong>
+      <Text as="div" weight={"medium"} highContrast={true} mb="4">
+        Select a type of <Strong>measure</Strong>.
       </Text>
       <RadioGroup.Root defaultValue="0">
         <Flex gap="2" direction="column">
@@ -45,7 +46,9 @@ export default function Sidebar({ measure }) {
               <label key={index}>
                 <Flex gap="2" align="center">
                   <RadioGroup.Item value={`${index}`} />
-                  <Text size="2">{attribute?.label}</Text>
+                  <Text size="2" weight={"regular"}>
+                    {attribute?.label}
+                  </Text>
                 </Flex>
               </label>
             );
@@ -53,9 +56,20 @@ export default function Sidebar({ measure }) {
         </Flex>
       </RadioGroup.Root>
       <Separator size={4} my="4" />
-      <Text as="div" weight={"bold"} highContrast={true}>
-        What am i looking at?
+      <Text as="div" weight={"medium"} highContrast={true} mb="4">
+        Select countries.
       </Text>
+      <Flex gap="2" direction={"column"}>
+        {measure?.dimensions?.[0]?.values?.map((dimension, index) => {
+          return (
+            <Text key={index} size="2">
+              <label>
+                <Checkbox mr="1" defaultChecked /> {dimension?.full_name}
+              </label>
+            </Text>
+          );
+        })}
+      </Flex>
     </div>
   );
 }
