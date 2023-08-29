@@ -1,6 +1,7 @@
 import { Card, Container, Flex, Text } from "@radix-ui/themes";
 import DatasetTable from "./DatasetTable";
 import GraphContainer from "./GraphContainer";
+import Sidebar from "./Sidebar";
 
 export default function MeasureProperty({ measure }) {
   const measureTemp = Object.keys(measure);
@@ -10,9 +11,12 @@ export default function MeasureProperty({ measure }) {
   });
   // console.log(measure);
   return (
-    <div className="h-full w-full">
+    <div className="h-full w-full flex flex-row">
       {/* <DatasetTable measureArray={measureArray} /> */}
-      <GraphContainer measure={measure}/>
+      <GraphContainer measure={measure} />
+      <div className="h-full w-1/6 overflow-clip">
+        <Sidebar measure={measure} />
+      </div>
     </div>
   );
 }
