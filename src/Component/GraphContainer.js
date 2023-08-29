@@ -85,7 +85,7 @@ export default function GraphContainer({ measure }) {
 
   return (
     <div className="h-full w-full flex">
-      <div className="h-4/5 w-4/5 m-auto">
+      <div className="h-full w-full m-auto">
         <LineChartComponent
           tempLabel={tempLabel}
           dimension={dimension}
