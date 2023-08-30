@@ -9,8 +9,11 @@ export default function LineChartComponent({
   dimension,
   random_rgba,
   graphs,
+  graphIndex,
 }) {
   Chart.register(zoomPlugin);
+
+  const CODE_PROPERTY = graphIndex === 0 ? "who_code" : "code";
   return (
     <Line
       options={{
@@ -59,15 +62,15 @@ export default function LineChartComponent({
         datasets: dimension.map((country) => {
           const RGBA = random_rgba();
           return {
-            label: country?.who_code,
-            data: graphs[0],
+            label: country?.[CODE_PROPERTY],
+            data: graphs[graphIndex],
             tension: 0.8,
             pointRadius: 1,
             pointBorderColor: RGBA,
             borderColor: RGBA,
             parsing: {
               xAxisKey: "year",
-              yAxisKey: `yData.${country?.who_code}`,
+              yAxisKey: `yData.${country?.[CODE_PROPERTY]}`,
             },
           };
         }),

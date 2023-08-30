@@ -15,6 +15,8 @@ export default function Sidebar({
   measure,
   countryMapState,
   setCountryMapState,
+  graphIndex,
+  setGraphIndex,
 }) {
   const [readMoreFlag, setReadMoreFlag] = useState(false);
   const [selectOption, setSelectOption] = useState({
@@ -52,7 +54,11 @@ export default function Sidebar({
             return (
               <label key={index}>
                 <Flex gap="2" align="center">
-                  <RadioGroup.Item value={`${index}`} />
+                  <RadioGroup.Item
+                    value={`${index}`}
+                    checked={graphIndex === index}
+                    onClick={() => setGraphIndex(index)}
+                  />
                   <Text size="2" weight={"regular"}>
                     {attribute?.label}
                   </Text>
@@ -128,6 +134,33 @@ export default function Sidebar({
                         ...prev,
                         [dimension.who_code]:
                           !countryMapState?.[dimension?.who_code],
+                      };
+                    });
+                  }}
+                />{" "}
+                {dimension?.full_name}
+              </label>
+            </Text>
+          );
+        })}
+        {measure?.dimensions?.[1]?.values?.map((dimension, index) => {
+          return (
+            <Text key={index} size="2">
+              <label>
+                <Checkbox
+                  mr="1"
+                  defaultChecked
+                  checked={countryMapState?.[dimension?.code]}
+                  onClick={() => {
+                    setCountryMapState((prev) => {
+                      setSelectOption({
+                        selectAll: false,
+                        disableAll: false,
+                      });
+                      return {
+                        ...prev,
+                        [dimension.code]:
+                          !countryMapState?.[dimension?.code],
                       };
                     });
                   }}
