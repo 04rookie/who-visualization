@@ -26,7 +26,7 @@ export default function Navbar({ setIsDark, isDark }) {
           className="pl-4 pt-1 hover:cursor-pointer"
           // color={PALLETTE[Math.floor(Math.random() * 12)]}
         >
-          <Text highContrast color="gray">Who.Visualization</Text>
+          <Text className="text-white">Who.Visualization</Text>
         </Heading>
       </Link>
       <div className="pr-4">
