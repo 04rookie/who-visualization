@@ -18,7 +18,9 @@ export default function Sidebar({
   graphIndex,
   setGraphIndex,
 }) {
+  //flag for read more/less
   const [readMoreFlag, setReadMoreFlag] = useState(false);
+  //state for disable, enable all countries. Note: Both should not be true at once.
   const [selectOption, setSelectOption] = useState({
     selectAll: false,
     disableAll: false,
@@ -79,6 +81,8 @@ export default function Sidebar({
               mr="1"
               defaultChecked
               checked={selectOption.selectAll}
+              //onClick set select all, but always set disable all as false.
+              //also updates the countryMapState of all countries.
               onClick={() => {
                 const tempKeys = Object.keys(countryMapState);
                 let countryMapStateTemp = { ...countryMapState };
@@ -100,6 +104,8 @@ export default function Sidebar({
             <Checkbox
               mr="1"
               checked={selectOption.disableAll}
+              //onClick set disable all, but always set select all as false.
+              //also updates the countryMapState of all countries.
               onClick={() => {
                 const tempKeys = Object.keys(countryMapState);
                 let countryMapStateTemp = { ...countryMapState };
@@ -116,60 +122,66 @@ export default function Sidebar({
             Disable all
           </label>
         </Text>
-        {measure?.dimensions?.[0]?.values?.map((dimension, index) => {
-          return (
-            <Text key={index} size="2">
-              <label>
-                <Checkbox
-                  mr="1"
-                  defaultChecked
-                  checked={countryMapState?.[dimension?.who_code]}
-                  onClick={() => {
-                    setCountryMapState((prev) => {
-                      setSelectOption({
-                        selectAll: false,
-                        disableAll: false,
+        {
+          // Map all countries with checkbox, and behaviour for updating.
+          //Once countryStateMap is updated the whole graph re-renders by new params
+          measure?.dimensions?.[0]?.values?.map((dimension, index) => {
+            return (
+              <Text key={index} size="2">
+                <label>
+                  <Checkbox
+                    mr="1"
+                    defaultChecked
+                    checked={countryMapState?.[dimension?.who_code]}
+                    onClick={() => {
+                      setCountryMapState((prev) => {
+                        setSelectOption({
+                          selectAll: false,
+                          disableAll: false,
+                        });
+                        return {
+                          ...prev,
+                          [dimension.who_code]:
+                            !countryMapState?.[dimension?.who_code],
+                        };
                       });
-                      return {
-                        ...prev,
-                        [dimension.who_code]:
-                          !countryMapState?.[dimension?.who_code],
-                      };
-                    });
-                  }}
-                />{" "}
-                {dimension?.full_name}
-              </label>
-            </Text>
-          );
-        })}
-        {measure?.dimensions?.[1]?.values?.map((dimension, index) => {
-          return (
-            <Text key={index} size="2">
-              <label>
-                <Checkbox
-                  mr="1"
-                  defaultChecked
-                  checked={countryMapState?.[dimension?.code]}
-                  onClick={() => {
-                    setCountryMapState((prev) => {
-                      setSelectOption({
-                        selectAll: false,
-                        disableAll: false,
+                    }}
+                  />{" "}
+                  {dimension?.full_name}
+                </label>
+              </Text>
+            );
+          })
+        }
+        {
+          //Map all the country groups, + same behaviour as code above but for groups.
+          measure?.dimensions?.[1]?.values?.map((dimension, index) => {
+            return (
+              <Text key={index} size="2">
+                <label>
+                  <Checkbox
+                    mr="1"
+                    defaultChecked
+                    checked={countryMapState?.[dimension?.code]}
+                    onClick={() => {
+                      setCountryMapState((prev) => {
+                        setSelectOption({
+                          selectAll: false,
+                          disableAll: false,
+                        });
+                        return {
+                          ...prev,
+                          [dimension.code]: !countryMapState?.[dimension?.code],
+                        };
                       });
-                      return {
-                        ...prev,
-                        [dimension.code]:
-                          !countryMapState?.[dimension?.code],
-                      };
-                    });
-                  }}
-                />{" "}
-                {dimension?.full_name}
-              </label>
-            </Text>
-          );
-        })}
+                    }}
+                  />{" "}
+                  {dimension?.full_name}
+                </label>
+              </Text>
+            );
+          })
+        }
       </Flex>
     </div>
   );
