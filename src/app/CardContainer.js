@@ -5,7 +5,7 @@ export default function CardContainer(props) {
   return (
     <Grid
       columns={{ initial: "1", xl: "4", sm: "3" }}
-      py="4"
+      py="7"
       px="9"
       gap="5"
       width="auto"
