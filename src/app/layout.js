@@ -15,7 +15,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning className="h-screen">
       <body className={"h-full"}>
-        {/* <Theme appearance="dark" > */}
         <ThemeComponent>{children}</ThemeComponent>
       </body>
     </html>
