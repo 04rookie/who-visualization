@@ -8,6 +8,14 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    screens: {
+      initial: "0px",
+      xs: "520px",
+      sm: "768px",
+      md: "1024px",
+      lg: "1280px",
+      xl: "1640px",
+    },
     fontSize: {
       xs: "12px",
       sm: "14px",
