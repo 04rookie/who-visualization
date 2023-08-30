@@ -1,9 +1,10 @@
 "use client";
 
+import Loading from "@/app/loading";
 import dynamic from "next/dynamic";
 
 const LineChartComponent = dynamic(() => import("./LineChartComponent"), {
-  loading: () => "...Loading",
+  loading: () => <Loading />,
   ssr: false,
 });
 
