@@ -7,13 +7,15 @@ const LineChartComponent = dynamic(() => import("./LineChartComponent"), {
   ssr: false,
 });
 
-export default function GraphContainer({ measure }) {
+export default function GraphContainer({ measure, countryMapState }) {
   let attributeMap = {};
   const dimension = measure?.dimensions?.[0]?.values;
   const attributes = measure?.attributes?.[0]?.values;
   let countryMap = {};
   dimension.forEach((dim, index) => {
-    countryMap[dim?.who_code] = -1;
+    if (countryMapState?.[dim?.who_code]) {
+      countryMap[dim?.who_code] = -1;
+    }
   });
   attributes.forEach((attribute, index) => {
     attributeMap[attribute?.code] = {
