@@ -64,12 +64,6 @@ export default function GraphContainer({ measure, countryMapState }) {
     );
   }
 
-  // const colors = [];
-  // for (let i = 0; i < 100; i++) {
-  //   // const randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
-  //   colors.push(random_rgba());
-  // }
-
   graphs.forEach((graph) => {
     graph.forEach((element) => {
       const keys = Object.keys(element.yData);

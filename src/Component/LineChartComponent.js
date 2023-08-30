@@ -14,10 +14,6 @@ export default function LineChartComponent({
   return (
     <Line
       options={{
-        // layout: {
-        //   autoPadding: false,
-        //   padding: 1,
-        // },
         spanGaps: true,
         responsive: true,
         maintainAspectRatio: false,
@@ -65,7 +61,7 @@ export default function LineChartComponent({
           return {
             label: country?.who_code,
             data: graphs[0],
-            // tension: 0.4,
+            tension: 0.8,
             pointRadius: 1,
             pointBorderColor: RGBA,
             borderColor: RGBA,
