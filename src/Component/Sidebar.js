@@ -18,7 +18,7 @@ export default function Sidebar({
 }) {
   const [readMoreFlag, setReadMoreFlag] = useState(false);
   const [selectOption, setSelectOption] = useState({
-    selectAll: true,
+    selectAll: false,
     disableAll: false,
   });
   return (
