@@ -26,7 +26,7 @@ export default function Sidebar({
     disableAll: false,
   });
   return (
-    <div className="h-full w-full py-5 px-1 overflow-auto">
+    <div className="h-full w-full py-5 px-3 overflow-auto">
       <Heading as="div" weight={"bold"} highContrast={true}>
         {measure?.full_name}.
       </Heading>
