@@ -1,4 +1,4 @@
-import { SunIcon } from "@radix-ui/react-icons";
+import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { Heading, IconButton, Text } from "@radix-ui/themes";
 import Link from "next/link";
 
@@ -31,7 +31,7 @@ export default function Navbar({ setIsDark, isDark }) {
       </Link>
       <div className="pr-4">
         <IconButton color="gray" onClick={() => setIsDark(!isDark)}>
-          <SunIcon />
+          {isDark ? <SunIcon /> : <MoonIcon />}
         </IconButton>
       </div>
     </div>
