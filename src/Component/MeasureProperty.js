@@ -40,7 +40,11 @@ export default function MeasureProperty({ measure }) {
             countryMapState={countryMapState}
             graphIndex={graphIndex}
           />
-          <div className="h-full md:w-1/6 xl:w-1/6 lg:w-1/6 sm:w-1/6 xs:w-[100%] xl:overflow-clip lg:overflow-clip md:overflow-clip sm:overflow-clip">
+          <div
+            className="h-full md:w-1/6 xl:w-1/6 lg:w-1/6 sm:w-1/6 xs:w-[100%] xs:h-[50%] initial:h-[50%]
+            sm:h-[100%] md:h-[100%] lg:h-[100%] xl:h-[100%]
+            xl:overflow-clip lg:overflow-clip md:overflow-clip sm:overflow-clip"
+          >
             <Sidebar
               measure={measure}
               countryMapState={countryMapState}
