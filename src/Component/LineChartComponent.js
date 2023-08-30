@@ -18,6 +18,7 @@ export default function LineChartComponent({
         //   autoPadding: false,
         //   padding: 1,
         // },
+        spanGaps: true,
         responsive: true,
         maintainAspectRatio: false,
         scales: {
@@ -31,7 +32,7 @@ export default function LineChartComponent({
           intersect: false,
         },
         plugins: {
-          tooltip:{multiKeyBackground: '#000'},
+          tooltip: { multiKeyBackground: "#000" },
           legend: {
             display: false,
           },
