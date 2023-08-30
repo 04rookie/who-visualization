@@ -27,7 +27,7 @@ export default function MeasureProperty({ measure }) {
         <></>
       ) : (
         <>
-          {/* <GraphContainer measure={measure} countryMapState={countryMapState} /> */}
+          <GraphContainer measure={measure} countryMapState={countryMapState} />
           <div className="h-full w-1/6 overflow-clip">
             <Sidebar
               measure={measure}
