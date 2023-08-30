@@ -10,10 +10,13 @@ export default function LineChartComponent({
   random_rgba,
   graphs,
   graphIndex,
+  isCountry,
 }) {
+  //Loading Zoom plugin with Chart library (It has to be registered explicitly according to docs.)
   Chart.register(zoomPlugin);
 
-  const CODE_PROPERTY = graphIndex === 0 ? "who_code" : "code";
+  //If type country, use 0 or else 1. Because API uses attribute names who_code and code.
+  const CODE_PROPERTY = isCountry === 0 ? "who_code" : "code";
   return (
     <Line
       options={{
@@ -60,9 +63,11 @@ export default function LineChartComponent({
       data={{
         labels: tempLabel,
         datasets: dimension.map((country) => {
+          // console.log(country);
+          // console.log(graphs[graphIndex]);
           const RGBA = random_rgba();
           return {
-            label: country?.[CODE_PROPERTY],
+            label: country?.short_name,
             data: graphs[graphIndex],
             tension: 0.8,
             pointRadius: 1,

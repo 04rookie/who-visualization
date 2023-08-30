@@ -3,7 +3,7 @@
 import Loading from "@/app/loading";
 import dynamic from "next/dynamic";
 
-//We have to use dynamic import as the library uses window instance from browerser. 
+//We have to use dynamic import as the library uses window instance from browerser.
 //As it is not available at server side, we explicitly mention that this import should be done client side
 //And all its use should as well. (This is a temporary solution, Vercel is probably working smoother solution for this)
 const LineChartComponent = dynamic(() => import("./LineChartComponent"), {
@@ -69,8 +69,17 @@ export default function GraphContainer({
     }
   });
 
+  //Sometimes the certain attribute are associated with country and rest of the times with groups
+  //In the API it is not explicitly mentioned which is associated with which and they change in each dataset.
+  //This is why we iterate through dataset and set flag 0 and 1 manually
+  //First we initalise all the available attribute as null
+  let metaAttribute = {};
+  attributes.forEach((element) => {
+    metaAttribute[element?.code] = null;
+  });
+
   //Finally, our data structure is ready. Now inserting values received from API.
-  graphs.forEach((graph, graphIndex) => {
+  graphs.forEach((graph, graphIndexInner) => {
     measure?.data?.forEach((datum) => {
       //First if statement is responsible for inserting all country data
       //Before inserting, checking 4 constraints to avoid any runtime error from data inconsistencies
@@ -79,12 +88,11 @@ export default function GraphContainer({
       //3- Check if the country from API exists in our data structure.
       //If API is giving any country that does not exist in our structure, skip!
       //4- Check if Measure Type in datum (loop data set instance) and current interation for graph are same.
-
       if (
         datum?.dimensions?.COUNTRY?.length !== 0 &&
         datum?.dimensions?.COUNTRY !== undefined &&
         countryMap?.[datum?.dimensions?.COUNTRY] !== undefined &&
-        datum?.attributes?.MEASURE_TYPE === attributes?.[graphIndex]?.code
+        datum?.attributes?.MEASURE_TYPE === attributes?.[graphIndexInner]?.code
       ) {
         // Calcualting index value at which to insert the data (Year on X axis)
         const diff =
@@ -92,6 +100,12 @@ export default function GraphContainer({
 
         // Assigning Numeric value from iteration instance (Y value)
         graph[diff].yData[datum?.dimensions?.COUNTRY] = datum?.value?.numeric;
+
+        //we know this datum belongs to country so we set the flag as 0, we have to run this just once.
+        //because there is no intersection, and throught this dataset the association does not change.
+        if (metaAttribute[datum?.attributes?.MEASURE_TYPE] === null) {
+          metaAttribute[datum?.attributes?.MEASURE_TYPE] = 0;
+        }
       }
       //Block for countries that belong to groups
       //Performing same checks as earlier but for country groups.
@@ -100,7 +114,7 @@ export default function GraphContainer({
         datum?.dimensions?.COUNTRY_GRP?.length !== 0 &&
         datum?.dimensions?.COUNTRY_GRP !== undefined &&
         countryMap?.[datum?.dimensions?.COUNTRY_GRP] !== undefined &&
-        datum?.attributes?.MEASURE_TYPE === attributes?.[graphIndex]?.code
+        datum?.attributes?.MEASURE_TYPE === attributes?.[graphIndexInner]?.code
       ) {
         // Calcualting index value at which to insert the data (Year on X axis)
         const diff =
@@ -108,10 +122,15 @@ export default function GraphContainer({
         // Assigning Numeric value from iteration instance (Y value)
         graph[diff].yData[datum?.dimensions?.COUNTRY_GRP] =
           datum?.value?.numeric;
+
+        //we know this datum belongs to country so we set the flag as 1, we have to run this just once.
+        //because there is no intersection, and throught this dataset the association does not change.
+        if (metaAttribute[datum?.attributes?.MEASURE_TYPE] === null) {
+          metaAttribute[datum?.attributes?.MEASURE_TYPE] = 1;
+        }
       }
     });
   });
-
 
   //Function that generates random RGBA string for colors used in graph.
   function random_rgba() {
@@ -147,9 +166,15 @@ export default function GraphContainer({
         <LineChartComponent
           graphIndex={graphIndex}
           tempLabel={tempLabel}
-          dimension={dimension?.[graphIndex]?.values}
+          //pass country data or country group data based on the meta calculated earlier
+          dimension={
+            dimension?.[metaAttribute?.[attributes?.[graphIndex]?.code] ?? 0]
+              ?.values
+          }
           random_rgba={random_rgba}
           graphs={graphs}
+          //send a prop so that we dont have to calculate again
+          isCountry={metaAttribute?.[attributes?.[graphIndex]?.code] ?? 0}
         />
       </div>
     </div>
