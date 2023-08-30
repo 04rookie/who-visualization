@@ -13,10 +13,7 @@ export default function GraphContainer({
   countryMapState,
   graphIndex,
 }) {
-  // let attributeMap = {};
-  // console.log(graphIndex)
   const dimension = measure?.dimensions;
-  // const dimensionSecondary = measure?.dimensions?.[1]?.values;
   const attributes = measure?.attributes?.[0]?.values;
   let countryMap = {};
   dimension?.[0]?.values.forEach((dim, index) => {
@@ -29,12 +26,6 @@ export default function GraphContainer({
       countryMap[dim?.code] = -1;
     }
   });
-  // console.log(countryMap)
-  // attributes.forEach((attribute, index) => {
-  //   attributeMap[attribute?.code] = {
-  //     attributeIndex: index,
-  //   };
-  // });
   let graphs = attributes?.map((element) => []);
   const YEARRANGE =
     measure?.dimensions?.[3]?.upper_bound -
@@ -54,10 +45,6 @@ export default function GraphContainer({
 
   graphs.forEach((graph, graphIndex) => {
     measure?.data?.forEach((datum) => {
-      // console.log("---------------------------");
-      // console.log(datum?.attributes?.MEASURE_TYPE);
-      // console.log(attributes?.[graphIndex]?.code);
-      // console.log("---------------------------");
       if (
         datum?.dimensions?.COUNTRY?.length !== 0 &&
         datum?.dimensions?.COUNTRY !== undefined &&
@@ -73,7 +60,6 @@ export default function GraphContainer({
         countryMap?.[datum?.dimensions?.COUNTRY_GRP] !== undefined &&
         datum?.attributes?.MEASURE_TYPE === attributes?.[graphIndex]?.code
       ) {
-        // console.log(datum?.attributes?.MEASURE_TYPE);
         const diff =
           datum?.dimensions?.YEAR - measure?.dimensions?.[3]?.lower_bound;
         graph[diff].yData[datum?.dimensions?.COUNTRY_GRP] =
@@ -106,7 +92,6 @@ export default function GraphContainer({
   for (let count = 0; count < YEARRANGE; count++) {
     tempLabel.push(measure?.dimensions?.[3]?.lower_bound + count);
   }
-  // console.log(graphs)
   return (
     <div className="h-full w-5/6 flex">
       <div className="h-full w-full m-auto">
