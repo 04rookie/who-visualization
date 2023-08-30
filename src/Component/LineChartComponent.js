@@ -43,7 +43,7 @@ export default function LineChartComponent({
               pinch: {
                 enabled: true,
               },
-              mode: "xy",
+              mode: "x",
             },
             pan: {
               enabled: true,
