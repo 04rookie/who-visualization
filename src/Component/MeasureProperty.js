@@ -30,7 +30,7 @@ export default function MeasureProperty({ measure }) {
     setCountryMapState(countryMapTemp);
   }, [measure]);
   return (
-    <div className="h-full w-full flex flex-row">
+    <div className="h-full w-full flex xl:flex-row lg:flex-row md:flex-row xs:flex-row initial:flex-col">
       {countryMapState === null ? (
         <></>
       ) : (
@@ -40,7 +40,7 @@ export default function MeasureProperty({ measure }) {
             countryMapState={countryMapState}
             graphIndex={graphIndex}
           />
-          <div className="h-full w-1/6 overflow-clip">
+          <div className="h-full md:w-1/6 xl:w-1/6 lg:w-1/6 sm:w-1/6 xs:w-[100%] xl:overflow-clip lg:overflow-clip md:overflow-clip sm:overflow-clip">
             <Sidebar
               measure={measure}
               countryMapState={countryMapState}

@@ -161,7 +161,7 @@ export default function GraphContainer({
     tempLabel.push(measure?.dimensions?.[3]?.lower_bound + count);
   }
   return (
-    <div className="h-full w-5/6 flex">
+    <div className="h-full xl:w-5/6 lg:w-5/6 md:w-5/6 sm:w-5/6 xs:w-[100%] flex">
       <div className="h-full w-full m-auto">
         <LineChartComponent
           graphIndex={graphIndex}
