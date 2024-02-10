@@ -1,3 +1,7 @@
+### Latest patch notes
+NextJS version updated to latest stable release 14.
+Temporary fix for some of the APIs that failing to fetch from WHO.
+
 ## WHO Visualization
 
 A Webapp built with NextJS 13.4 to fetch and display dataset from WHO. Uses the new Server-components and rendering with React and Next framework to provide smooth and quick UX experience.

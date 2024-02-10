@@ -1,11 +1,20 @@
 import CardContainer from "./CardContainer";
 
 export default async function PageContainer() {
-  const res = await fetch("https://dw.euro.who.int/api/v3/data_sets/HFA");
-  const resJson = await res.json();
+  let resJson = null;
+  try {
+    const res = await fetch("https://dw.euro.who.int/api/v3/data_sets/HFA");
+    resJson = await res.json();
+  } catch (error) {
+    console.log("Fetch failed due to: ", error);
+  }
   return (
     <main className="h-full">
-      <CardContainer measures={resJson?.measures} />
+      {resJson == null ? (
+        "Error in fetching dataset, please visit later"
+      ) : (
+        <CardContainer measures={resJson?.measures} />
+      )}
     </main>
   );
 }
