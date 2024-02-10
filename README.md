@@ -2,7 +2,7 @@
 
 A Webapp built with NextJS 13.4 to fetch and display dataset from WHO. Uses the new Server-components and rendering with React and Next framework to provide smooth and quick UX experience.
 
-To run the app in development mode
+To run the app in development mode.
 ```bash
 npm run dev
 # or
