@@ -34,4 +34,4 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 - [Vercel](https://vercel.com/)
 
 ## Dataset source
-- [World Health Organization](https://dw.euro.who.int/) - European Health for All database (WHO), last updated on: 4th September 2022 
+- [World Health Organization](https://dw.euro.who.int/) - European Health for All database (WHO), last updated on: 4th September 2022. 
